@@ -1,0 +1,112 @@
+CRÔNICAS DE UM REINO  (versão 2D)
+=================================
+
+ESTRUTURA
+- main.py: criação do personagem e menu principal (tudo dentro da janela)
+- inimigos/inimigos.py: fichas, criação (com escala por nível) e bestiário
+- sistemas/combate.py: combate por turnos 2D e duelo entre jogadores
+- sistemas/itens.py: itens, equipamentos, cura e tela de inventário
+- sistemas/personagem.py: ficha, XP, nível, derrota e correção de personagens antigos
+- sistemas/salvar.py: salvamento seguro (savegame.json + backup savegame.bak)
+- sistemas/graficos.py: sprites e tiles desenhados por código (sem imagens)
+- sistemas/ui.py: menus, painéis, barras e entrada de texto
+- mapas/mapa.py: mapa 2D da floresta, inimigos andando, baús, itens, fonte
+
+COMO EXECUTAR
+1. Abra esta pasta no VS Code.
+2. Abra o terminal na pasta Cronicas_de_um_Reino.
+3. Instale o Pygame:
+   py -m pip install pygame
+4. Execute:
+   py main.py
+Execute sempre main.py. Não execute os outros arquivos separadamente.
+Agora TUDO acontece na janela do jogo: não é mais preciso digitar no terminal.
+
+MENU
+Setas ou W/S para escolher, ENTER confirma, ou aperte o número da opção.
+
+MAPA (96 x 72 quadrados, com câmera que acompanha o personagem)
+W A S D ou setas = andar
+E = interagir (abrir baú, beber da fonte)
+H = cura rápida (usa Erva Curativa ou Poção de Vida)
+I = inventário        B = bestiário de itens        C = ficha        M = liga/desliga o minimapa
+ESC = voltar ao menu
+
+BIOMAS
+- Floresta (noroeste): vila, lago, cemitério. Inimigos: goblins, esqueletos, zumbis.
+- Savana (nordeste): capim seco, acácias e um poço de água. Inimigos: cobras (C) e gorilas mutantes (K).
+- Deserto (todo o sul): dunas, cactos, ossos e dois oásis. Inimigos: escorpiões (S), múmias (M) e demônios (D).
+Estradas ligam os três biomas: saia da vila pelo portão leste (savana) ou pelo portão sul (deserto).
+Há 4 pontos de cura: fonte da vila, poço da savana e os dois oásis do deserto.
+
+Cenário da floresta: vila com 4 casas e praça com fonte, estradas, lago com ponte, lagoa,
+floresta densa nas bordas e um cemitério no canto noroeste.
+Minimapa no canto superior direito: ponto branco = você, vermelho = inimigos,
+amarelo = baús fechados, azul-claro = fonte.
+
+INIMIGOS NO MAPA
+Ordem de força nos novos biomas: cobra < escorpião < múmia < demônio < gorila mutante (o mais forte).
+Cada um tem ficha e habilidade própria (veja no Bestiário, use as setas para trocar de página).
+Floresta: 2 goblins (G), 2 esqueletos (E), 2 zumbis (Z). Savana: 3 cobras (C), 2 gorilas mutantes (K).
+Deserto: 3 escorpiões (S), 3 múmias (M), 2 demônios (D). Eles andam pelo mapa e
+perseguem o personagem quando ele chega perto (até 6 quadrados).
+O combate começa quando um inimigo fica em um quadrado adjacente.
+Os esqueletos e zumbis ficam perto do cemitério.
+Inimigos derrotados reaparecem depois de 45 segundos, se você estiver longe.
+Os inimigos ficam mais fortes conforme o seu nível.
+
+COMBATE (por turnos)
+1 = ataque normal
+2 = habilidade especial (custa 10 PE; cada inimigo tem a sua)
+3 = defender (reduz o próximo dano pela metade e recupera 3 PE)
+4 = usar item (poções e ervas, gasta o turno)
+5 = fugir (60% de chance)
+Todo turno você recupera 2 PE. Acertos críticos têm 10% de chance.
+Vitória: XP + 50% de chance de o inimigo deixar um item de cura.
+Derrota: você acorda perto da fonte com metade da vida e perde 20% do XP atual.
+
+MECÂNICAS DE CURA
+- Fonte da vila (E): restaura vida e energia por completo (recarrega em 25 s)
+- Poção de Vida (+40), Erva Curativa (+20), Poção de Energia (+15 PE),
+  Elixir Real (+35 vida e +15 PE)
+- Regeneração lenta de vida enquanto você explora
+- Subir de nível restaura vida e energia
+
+ITENS E EQUIPAMENTOS
+- Itens no chão: é só andar por cima para pegar. Baús: reaparecem fechados depois de 3 minutos.
+  Quanto mais longe da vila, melhores os itens dos baús e dos inimigos.
+- Armas (+força): Adaga Afiada +3, Espada de Ferro +5, Machado de Guerra +7, Espada de Aço +9,
+  Cimitarra do Deserto +12, Lança Sagrada +14, Lâmina Infernal +17.
+- Escudos (+defesa): Madeira +4, Ferro +7, Aço +10, Sagrado +13.
+- Armaduras (+defesa): Túnica de Couro +3, Cota de Malha +6, Armadura de Escamas +8,
+  Armadura de Placas +11, Armadura Sagrada +15.
+- Cura: Bandagem (+12), Erva Curativa (+20), Poção de Vida (+40), Poção Maior de Vida (+70),
+  Poção de Energia (+15 PE), Poção Maior de Energia (+30 PE), Fruta do Oásis (+30 vida, +10 PE),
+  Elixir Real (+35 vida, +15 PE), Poção Suprema (+120 vida, +30 PE).
+- No inventário, ENTER equipa (o item antigo volta para a mochila). A tecla H usa o item de cura mais adequado.
+
+BESTIÁRIO DE ITENS (menu ou tecla B no mapa)
+Catálogo de armas, armaduras, escudos e poções/curas. Itens ainda não encontrados aparecem como "???";
+ao pegar o item (baú, chão, drop ou equipado), ele é desbloqueado e mostra descrição, bônus,
+raridade de loot e onde aparece. Setas esquerda/direita trocam de categoria.
+Raridades (peso de sorteio): Comum (6-8), Incomum (4-5), Raro (3), Épico (2), Lendário (1).
+O progresso do catálogo também é salvo.
+
+SALVAMENTO
+- O jogo salva sozinho: a cada 30 s no mapa, depois de cada luta, ao usar/equipar itens e ao sair.
+  Também há a opção "Salvar jogo" no menu.
+- O arquivo fica na pasta do jogo (savegame.json). O save anterior é guardado em savegame.bak e
+  usado automaticamente se o principal estiver danificado.
+- Se der algum erro inesperado, o progresso é salvo antes de fechar e o erro é anotado em erro.log.
+- Saves/personagens antigos (sem escudo ou armadura) são corrigidos automaticamente ao carregar.
+- Ao abrir o jogo, escolha "Continuar" para seguir de onde parou.
+
+NÍVEL
+XP necessário = 50 x nível. A cada nível: +10 vida máx., +5 energia máx.,
++2 força, +1 defesa.
+
+DUELO ENTRE PERSONAGENS (2 jogadores)
+Menu > "Duelo entre personagens". O Jogador 2 escolhe um nome e luta contra o
+Jogador 1 no mesmo teclado, um turno de cada vez. O rival tem o mesmo nível e
+os mesmos equipamentos do Jogador 1. É um duelo amistoso: ninguém perde vida,
+itens ou XP.

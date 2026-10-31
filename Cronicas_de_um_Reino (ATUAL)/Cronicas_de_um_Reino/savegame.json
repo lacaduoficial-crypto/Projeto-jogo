@@ -1,0 +1,41 @@
+{
+  "nome": "mateus",
+  "nivel": 2,
+  "vida": 110,
+  "vida_maxima": 110,
+  "energia": 35,
+  "energia_maxima": 35,
+  "forca": 17,
+  "defesa": 11,
+  "experiencia": 76,
+  "x": 79,
+  "y": 50,
+  "inventario": {
+    "Poção de Vida": 2,
+    "Poção de Energia": 1,
+    "Elixir Real": 2,
+    "Poção Maior de Vida": 1,
+    "Fruta do Oásis": 2,
+    "Erva Curativa": 3,
+    "Bandagem": 3,
+    "Poção Maior de Energia": 1
+  },
+  "equipamento": {
+    "arma": null,
+    "escudo": "Escudo de Ferro",
+    "armadura": "Cota de Malha"
+  },
+  "descobertos": [
+    "Bandagem",
+    "Cota de Malha",
+    "Elixir Real",
+    "Erva Curativa",
+    "Escudo de Ferro",
+    "Fruta do Oásis",
+    "Poção Maior de Energia",
+    "Poção Maior de Vida",
+    "Poção de Energia",
+    "Poção de Vida"
+  ],
+  "versao": 2
+}
